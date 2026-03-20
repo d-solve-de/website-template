@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Willkommen</title>
+  <meta name="description" id="metaDesc" content="" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" id="ogTitle" content="" />
+  <meta property="og:description" id="ogDesc" content="" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      var l = localStorage.getItem('lang') || 'de';
+      document.documentElement.lang = l;
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Hauptnavigation">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Startseite">
+        <span class="logo-icon" id="logoIcon">🏪</span>
+        <span class="logo-text" id="logoText">…</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen/schließen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#menu" class="nav-link" data-i18n="nav.menu">Speisekarte</a></li>
+        <li><a href="#hours" class="nav-link" data-i18n="nav.hours">Öffnungszeiten</a></li>
+        <li><a href="#contact" class="nav-link" data-i18n="nav.contact">Kontakt</a></li>
+        <li>
+          <a href="#" class="nav-cta" id="navPhone" data-i18n="nav.call" aria-label="Anrufen">📞 Anrufen</a>
+        </li>
+        <li class="nav-controls">
+          <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">☀️</button>
+          <button class="lang-toggle" id="langToggle" aria-label="Sprache wechseln">EN</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="hero" aria-label="Willkommen">
+    <div class="hero-particles" id="particles" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="status-badge" id="statusBadge" aria-live="polite"></div>
+      <h1 class="hero-title" id="heroTitle">…</h1>
+      <p class="hero-subtitle" id="heroSubtitle"></p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary" data-i18n="hero.menuBtn">Zur Speisekarte</a>
+        <a href="#" class="btn btn-secondary" id="heroNavBtn" target="_blank" rel="noopener noreferrer" data-i18n="hero.routeBtn">📍 Route starten</a>
+      </div>
+      <div id="newsContainer" class="news-container" hidden aria-live="polite"></div>
+    </div>
+    <div class="hero-scroll-hint" aria-hidden="true"><span>↓</span></div>
+  </section>
+
+  <!-- ===== SPEISEKARTE ===== -->
+  <section id="menu" class="section menu-section" aria-labelledby="menuHeading">
+    <div class="container">
+      <h2 class="section-title" id="menuHeading" data-i18n="menu.heading">Speisekarte</h2>
+      <p class="section-subtitle" data-i18n="menu.subtitle">Unser Angebot für dich</p>
+      <div class="filter-bar" id="filterBar" role="tablist" aria-label="Kategorie">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true" data-i18n="menu.all">Alle</button>
+      </div>
+      <div class="menu-loading" id="menuLoading" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p data-i18n="menu.loading">Speisekarte wird geladen…</p>
+      </div>
+      <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+      <div class="menu-error hidden" id="menuError" role="alert">
+        <p data-i18n="menu.error">⚠️ Die Speisekarte konnte leider nicht geladen werden. Bitte kontaktiere uns direkt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ÖFFNUNGSZEITEN ===== -->
+  <section id="hours" class="section hours-section" aria-labelledby="hoursHeading">
+    <div class="container">
+      <h2 class="section-title" id="hoursHeading" data-i18n="hours.heading">Öffnungszeiten</h2>
+      <p class="section-subtitle" data-i18n="hours.subtitle">Wann du uns besuchen kannst</p>
+      <div class="hours-card">
+        <div class="hours-loading" id="hoursLoading">
+          <div class="spinner" aria-hidden="true"></div>
+        </div>
+        <table class="hours-table hidden" id="hoursTable" aria-label="Öffnungszeiten">
+          <tbody id="hoursTableBody"></tbody>
+        </table>
+        <div class="hours-status" id="hoursStatus" aria-live="polite"></div>
+        <div class="hours-error hidden" id="hoursError" role="alert">
+          <p data-i18n="hours.error">⚠️ Die Öffnungszeiten konnten nicht geladen werden. Bitte kontaktiere uns direkt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KONTAKT ===== -->
+  <section id="contact" class="section contact-section" aria-labelledby="contactHeading">
+    <div class="container">
+      <h2 class="section-title" id="contactHeading" data-i18n="contact.heading">Kontakt &amp; Anfahrt</h2>
+      <p class="section-subtitle" data-i18n="contact.subtitle">Wir freuen uns auf deinen Besuch</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">📍</span>
+            <div>
+              <strong data-i18n="contact.address">Adresse</strong>
+              <address id="contactAddress"><span data-i18n="contact.loading">Wird geladen…</span></address>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">📞</span>
+            <div>
+              <strong data-i18n="contact.phone">Telefon</strong>
+              <a href="#" class="phone-link" id="contactPhone" aria-label="Anrufen">…</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon" aria-hidden="true">🕐</span>
+            <div>
+              <strong data-i18n="contact.today">Heute</strong>
+              <p id="todayHours"></p>
+            </div>
+          </div>
+          <a href="#" class="btn btn-primary maps-btn" id="contactNavBtn" target="_blank" rel="noopener noreferrer" data-i18n="contact.navBtn">🗺️ Navigation starten</a>
+        </div>
+        <div class="contact-map" id="contactMapWrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-icon" aria-hidden="true" id="footerLogoIcon">🏪</span>
+          <span class="logo-text" id="footerLogoText">…</span>
+          <p id="footerAddress"></p>
+          <a href="#" id="footerPhone" aria-label="Anrufen"></a>
+        </div>
+        <div class="footer-links">
+          <h3 data-i18n="footer.legal">Rechtliches</h3>
+          <ul role="list">
+            <li><button class="footer-link-btn" id="openImpressum" aria-haspopup="dialog" data-i18n="footer.impressum">Impressum</button></li>
+            <li><button class="footer-link-btn" id="openDatenschutz" aria-haspopup="dialog" data-i18n="footer.datenschutz">Datenschutzerklärung</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p id="footerCopyright" class="footer-copyright" tabindex="0" role="button">© <span id="footerYear"></span> <span id="footerCompanyName">…</span>. <span data-i18n="footer.copyright">Alle Rechte vorbehalten.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== IMPRESSUM MODAL ===== -->
+  <div class="modal" id="impressumModal" role="dialog" aria-modal="true" aria-labelledby="impressumTitle" hidden>
+    <div class="modal-backdrop" data-close="impressumModal"></div>
+    <div class="modal-content">
+      <button class="modal-close" data-close="impressumModal" aria-label="Schließen">✕</button>
+      <div id="impressumContent">
+        <h2 id="impressumTitle">Impressum</h2>
+        <p data-i18n="legal.loading">Informationen werden geladen…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DATENSCHUTZ MODAL ===== -->
+  <div class="modal" id="datenschutzModal" role="dialog" aria-modal="true" aria-labelledby="datenschutzTitle" hidden>
+    <div class="modal-backdrop" data-close="datenschutzModal"></div>
+    <div class="modal-content">
+      <button class="modal-close" data-close="datenschutzModal" aria-label="Schließen">✕</button>
+      <div id="datenschutzContent">
+        <h2 id="datenschutzTitle" data-i18n="legal.privacy">Datenschutzerklärung</h2>
+        <p data-i18n="legal.loading">Informationen werden geladen…</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
