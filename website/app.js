@@ -24,7 +24,7 @@
    CONFIGURATION
    ============================================= */
 
-const SHEET_ID  = '1TBz3oGn5b6mI8FH6s6f1L831WddQgvinrH3EQsanr00';
+const SHEET_ID  = '1TBz3oGn5b6mI8FH6s6f1L831WddQgvinrH3EQsanr00 -> update to actual sheet ID';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 
 function gvizUrl(sheetName) {
@@ -41,24 +41,10 @@ const DAY_MAP = {
 
 /** Category → emoji fallback for menu cards without images. */
 const CAT_EMOJI = {
-  'döner': '🥙', 'kebab': '🥙', 'döner & kebab': '🥙', 'kebab gerichte': '🥙',
-  'falafel': '🧆',
-  'lahmacun': '🫓',
-  'pizza': '🍕', 'pizzen': '🍕',
-  'burger': '🍔',
-  'salat': '🥗', 'salate': '🥗', 'salads': '🥗',
-  'vegetarische gerichte': '🥗', 'vegan': '🌱',
-  'suppe': '🍲', 'suppen': '🍲',
-  'pasta': '🍝',
-  'teig gerichte': '🥟',
-  'getränke': '🥤', 'drinks': '🥤', 'beverages': '🥤',
-  'alkoholische getränke': '🍺', 'alkoholfreie getränke': '🥤',
-  'dessert': '🍰', 'desserts': '🍰', 'nachspeisen': '🍰',
-  'vorspeisen': '🥗', 'starters': '🥗',
-  'hauptgerichte': '🍽️', 'main courses': '🍽️',
-  'beilagen': '🥔', 'sides': '🥔',
-  'frühstück': '🍳', 'breakfast': '🍳',
-  'snacks': '🍿',
+  'category 1': '🥙', 
+  'category 2': 'logo/ emoji like the one before',
+  'category 3': 'logo/ emoji',
+  'default': 'default emoji',
 };
 const DEFAULT_EMOJI = '🍽️';
 
