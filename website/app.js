@@ -126,9 +126,6 @@ const I18N = {
     'footer.impressum': 'Impressum',
     'footer.datenschutz': 'Datenschutzerklärung',
     'footer.copyright': 'Alle Rechte vorbehalten.',
-    'legal.loading': 'Informationen werden geladen…',
-    'legal.unavailable': 'Die rechtlichen Informationen konnten nicht geladen werden. Bitte kontaktiere uns direkt.',
-    'legal.privacy': 'Datenschutzerklärung',
     'status.open': '✅ Geöffnet',
     'status.closed': '❌ Geschlossen',
     'status.loading': '⏳ Status wird geladen…',
@@ -170,9 +167,6 @@ const I18N = {
     'footer.impressum': 'Legal Notice',
     'footer.datenschutz': 'Privacy Policy',
     'footer.copyright': 'All rights reserved.',
-    'legal.loading': 'Loading information…',
-    'legal.unavailable': 'Legal information could not be loaded. Please contact us directly.',
-    'legal.privacy': 'Privacy Policy',
     'status.open': '✅ Open',
     'status.closed': '❌ Closed',
     'status.loading': '⏳ Loading status…',
@@ -509,9 +503,7 @@ function applyCompanyInfo() {
     }
   }
 
-  // Impressum + Datenschutz modals
-  renderImpressum();
-  renderDatenschutz();
+
 }
 
 function setText(id, text) {
@@ -726,105 +718,7 @@ function renderHoursStatus(hours) {
   }
 }
 
-/* =============================================
-   RENDER: IMPRESSUM (Legal Notice)
-   ============================================= */
 
-function renderImpressum() {
-  const el = document.getElementById('impressumContent');
-  if (!el) return;
-
-  const name = company.companyName;
-  if (!name) {
-    el.innerHTML = `<h2>Impressum</h2><p>${t('legal.unavailable')}</p>`;
-    return;
-  }
-
-  const addr = fullAddress();
-  const phone = phoneDisplay();
-  const pHref = phoneHref();
-
-  let html = `<h2>Impressum</h2>
-    <p><strong>Angaben gemäß § 5 TMG</strong></p>
-    <h3>Betreiber</h3>
-    <p>${esc(name)}<br/>${esc(company.street || '')} ${esc(company.houseNumber || '')}<br/>${esc(company.zip || '')} ${esc(company.city || '')}</p>`;
-
-  if (company.owner) {
-    html += `<h3>Vertreten durch</h3><p>${esc(company.owner)}</p>`;
-  }
-
-  html += `<h3>Kontakt</h3><p>`;
-  if (phone) html += `Telefon: <a href="${esc(pHref)}">${esc(phone)}</a><br/>`;
-  if (company.email) html += `E-Mail: ${esc(company.email)}`;
-  html += `</p>`;
-
-  if (company.taxId) {
-    html += `<h3>Umsatzsteuer-Identifikationsnummer</h3><p>${esc(company.taxId)}</p>`;
-  }
-
-  if (company.registerCourt || company.registerNumber) {
-    html += `<h3>Handelsregister</h3><p>`;
-    if (company.registerCourt) html += `${esc(company.registerCourt)}<br/>`;
-    if (company.registerNumber) html += `${esc(company.registerNumber)}`;
-    html += `</p>`;
-  }
-
-  html += `
-    <h3>Haftungsausschluss</h3>
-    <p>Die Inhalte dieser Webseite wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
-    <h3>Haftung für Links</h3>
-    <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
-    <h3>Urheberrecht</h3>
-    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>`;
-
-  el.innerHTML = html;
-}
-
-/* =============================================
-   RENDER: DATENSCHUTZ (Privacy Policy)
-   ============================================= */
-
-function renderDatenschutz() {
-  const el = document.getElementById('datenschutzContent');
-  if (!el) return;
-
-  const name = company.companyName;
-  if (!name) {
-    el.innerHTML = `<h2>${t('legal.privacy')}</h2><p>${t('legal.unavailable')}</p>`;
-    return;
-  }
-
-  const addr = fullAddress();
-  const phone = phoneDisplay();
-
-  el.innerHTML = `
-    <h2>${t('legal.privacy')}</h2>
-    <h3>1. Datenschutz auf einen Blick</h3>
-    <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>
-
-    <h3>2. Verantwortlicher</h3>
-    <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br/><br/>
-    ${esc(name)}<br/>
-    ${esc(company.street || '')} ${esc(company.houseNumber || '')}<br/>
-    ${esc(company.zip || '')} ${esc(company.city || '')}<br/>
-    ${phone ? 'Telefon: ' + esc(phone) : ''}</p>
-
-    <h3>3. Datenerfassung auf dieser Website</h3>
-    <p><strong>Server-Log-Dateien:</strong> Der Provider dieser Website erhebt und speichert automatisch Informationen in sogenannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind: Browsertyp und Browserversion, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage sowie IP-Adresse. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.</p>
-    <p><strong>Google Fonts:</strong> Diese Website nutzt zur einheitlichen Darstellung von Schriftarten Google Fonts. Beim Aufruf einer Seite lädt Ihr Browser die benötigten Web Fonts in ihren Browsercache, um Texte und Schriftarten korrekt anzuzeigen. Zu diesem Zweck muss der von Ihnen verwendete Browser Verbindung zu den Servern von Google aufnehmen. Hierdurch erlangt Google Kenntnis darüber, dass über Ihre IP-Adresse diese Website aufgerufen wurde. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
-    <p><strong>Google Maps:</strong> Diese Website nutzt den Kartendienst Google Maps. Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Bei der Nutzung von Google Maps können Daten an Google übertragen werden. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
-    <p><strong>Speisekarte / Preise (Google Sheets):</strong> Die Speisekarte und weitere Daten werden dynamisch aus Google Sheets geladen. Hierbei wird eine Anfrage an die Server von Google gestellt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
-    <p><strong>Cookies:</strong> Diese Website verwendet keine Cookies. Zur Speicherung Ihrer Theme- und Spracheinstellung wird ausschließlich der Local Storage Ihres Browsers genutzt. Diese Daten werden nicht an Server übertragen.</p>
-
-    <h3>4. Ihre Rechte</h3>
-    <p>Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung sowie ein Recht auf Berichtigung oder Löschung dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit an uns wenden (Kontaktdaten siehe Impressum).</p>
-
-    <h3>5. Analyse-Tools und Werbung</h3>
-    <p>Diese Website verwendet keine Analyse-Tools von Drittanbietern und schaltet keine Werbung. Es werden keine Cookies zu Tracking- oder Werbezwecken eingesetzt.</p>
-
-    <h3>6. Beschwerderecht</h3>
-    <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.</p>`;
-}
 
 /* =============================================
    THEME
