@@ -1,0 +1,30 @@
+name: PR Preview
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add no-index tag to prevent search indexing
+        if: github.event.action != 'closed'
+        run: |
+          sed -i 's/<head>/<head>\n    <meta name="robots" content="noindex, nofollow">/' ./website/index.html
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./website/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
